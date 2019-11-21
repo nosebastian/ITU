@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-    loggedUser.name = "Joe";
+    loggedUser.name = "";
     loggedUser.showOnly = [1,0,0,0];
     return MaterialApp(
       debugShowCheckedModeBanner: false,

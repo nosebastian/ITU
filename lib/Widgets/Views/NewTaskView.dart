@@ -18,7 +18,7 @@ class NewTaskView extends StatelessWidget {
 
     return Scaffold(
             appBar: PreferredSize(
-        preferredSize: Size.fromHeight(50),
+        preferredSize: Size.fromHeight(30),
         child: Container(
           decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -52,7 +52,7 @@ class NewTaskView extends StatelessWidget {
               child: BackGround(),
             ),
             Positioned(
-              top: size.height / 10,
+              top: size.height / 20,
               child: Container(
                 padding: EdgeInsets.only(left: 30),
                 child: Column(
@@ -74,7 +74,7 @@ class NewTaskView extends StatelessWidget {
               ),
             ),
             Positioned(
-              top: size.height / 7.3,
+              top: size.height / 11,
               bottom: 0,
               width: size.width,
               child: ListBackGround(
@@ -494,7 +494,7 @@ class _ShowPriorityState extends State<ShowPriority> {
                         Container(
                               padding: EdgeInsets.fromLTRB(20, 10, 0, 0),
                               child: Text(
-                                currentTask.priority == null ? "" : currentTask.priority.toString(),
+                                currentTask.priority == null ? "0" : currentTask.priority.toString(),
                                 style: TextStyle(fontSize: 20),
                               )),
                              
@@ -653,7 +653,7 @@ class _PriorityDialogState extends State<PriorityDialog> {
         Slider(
                   activeColor: Colors.indigoAccent,
                   min: 0.0,
-                  max: 3.0,
+                  max: 2.0,
                   onChanged: (newRating) {
                     currentTask.priority = newRating.toInt();
                     setState(() => _sliderValue = newRating);

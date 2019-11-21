@@ -6,7 +6,6 @@ import 'NewTaskView.dart';
 import 'package:itu_project/Widgets/Background.dart';
 import '../../User.dart';
 import '../../Bloc/reload_list_bloc.dart';
-import 'package:firebase_database/firebase_database.dart';
 
 int numOfTask = 0;
 
@@ -23,8 +22,28 @@ class ActiveView extends StatelessWidget {
         String taskDate =
             loggedUser.todo[i].date != null ? loggedUser.todo[i].date : "";
         taskDate = taskDate == "" ? "" : taskDate.substring(0, 10);
-        if (taskDate == chosenDate) {
+        if (taskDate == chosenDate && loggedUser.showOnly[0] == 1) {
+          // Show all
           loggedUser.todaysTasks.add(loggedUser.todo[i]);
+        } else {
+          if (taskDate == chosenDate &&
+              loggedUser.showOnly[1] == 1 &&
+              loggedUser.todo[i].priority == 0) {
+            // Fill with priority 0
+            loggedUser.todaysTasks.add(loggedUser.todo[i]);
+          }
+          if (taskDate == chosenDate &&
+              loggedUser.showOnly[2] == 1 &&
+              loggedUser.todo[i].priority == 1) {
+            // Fill with priority 1
+            loggedUser.todaysTasks.add(loggedUser.todo[i]);
+          }
+          if (taskDate == chosenDate &&
+              loggedUser.showOnly[3] == 1 &&
+              loggedUser.todo[i].priority == 2) {
+            // Fill with priority 2
+            loggedUser.todaysTasks.add(loggedUser.todo[i]);
+          }
         }
       }
       loggedUser.todaysTasks.sort((a, b) {
@@ -149,8 +168,28 @@ class ListBackGround extends StatelessWidget {
         String taskDate =
             loggedUser.todo[i].date != null ? loggedUser.todo[i].date : "";
         taskDate = taskDate == "" ? "" : taskDate.substring(0, 10);
-        if (taskDate == chosenDate) {
+                if (taskDate == chosenDate && loggedUser.showOnly[0] == 1) {
+          // Show all
           loggedUser.todaysTasks.add(loggedUser.todo[i]);
+        } else {
+          if (taskDate == chosenDate &&
+              loggedUser.showOnly[1] == 1 &&
+              loggedUser.todo[i].priority == 0) {
+            // Fill with priority 0
+            loggedUser.todaysTasks.add(loggedUser.todo[i]);
+          }
+          if (taskDate == chosenDate &&
+              loggedUser.showOnly[2] == 1 &&
+              loggedUser.todo[i].priority == 1) {
+            // Fill with priority 1
+            loggedUser.todaysTasks.add(loggedUser.todo[i]);
+          }
+          if (taskDate == chosenDate &&
+              loggedUser.showOnly[3] == 1 &&
+              loggedUser.todo[i].priority == 2) {
+            // Fill with priority 2
+            loggedUser.todaysTasks.add(loggedUser.todo[i]);
+          }
         }
       }
       loggedUser.todaysTasks.sort((a, b) {
@@ -376,8 +415,28 @@ class _CalendarState extends State<Calendar> {
         String taskDate =
             loggedUser.todo[i].date != null ? loggedUser.todo[i].date : "";
         taskDate = taskDate == "" ? "" : taskDate.substring(0, 10);
-        if (taskDate == chosenDate) {
+                if (taskDate == chosenDate && loggedUser.showOnly[0] == 1) {
+          // Show all
           loggedUser.todaysTasks.add(loggedUser.todo[i]);
+        } else {
+          if (taskDate == chosenDate &&
+              loggedUser.showOnly[1] == 1 &&
+              loggedUser.todo[i].priority == 0) {
+            // Fill with priority 0
+            loggedUser.todaysTasks.add(loggedUser.todo[i]);
+          }
+          if (taskDate == chosenDate &&
+              loggedUser.showOnly[2] == 1 &&
+              loggedUser.todo[i].priority == 1) {
+            // Fill with priority 1
+            loggedUser.todaysTasks.add(loggedUser.todo[i]);
+          }
+          if (taskDate == chosenDate &&
+              loggedUser.showOnly[3] == 1 &&
+              loggedUser.todo[i].priority == 2) {
+            // Fill with priority 2
+            loggedUser.todaysTasks.add(loggedUser.todo[i]);
+          }
         }
         loggedUser.todaysTasks.sort((a, b) {
           return a.finishAt.compareTo(b.finishAt);
