@@ -38,3 +38,42 @@ class RadioButtonState extends State<RadioButton> {
 );
   }
 }
+
+
+// Radios for importance choose 
+
+class RadioButtonImportance extends StatefulWidget {
+    RadioButtonImportance({
+    int index,
+  }) : index = index;
+
+
+  final int index;
+  @override
+
+  RadioButtonImportanceState createState() {
+    return new RadioButtonImportanceState();
+  }
+}
+
+class RadioButtonImportanceState extends State<RadioButtonImportance> {
+
+
+  @override
+  Widget build(BuildContext context) {
+  bool isChecked = loggedUser.showOnly[widget.index] == 1 ? true : false;
+    return Checkbox(
+      activeColor: Colors.deepOrange,
+  
+  value: isChecked,
+  onChanged: (value) {
+    setState(() {
+      isChecked = value;
+      int i = isChecked ? 1 : 0;
+      loggedUser.showOnly[widget.index] = i;
+
+    });
+  },
+);
+  }
+}

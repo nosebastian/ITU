@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:itu_project/Task.dart';
-import 'package:itu_project/Task.dart' as prefix0;
 import 'package:table_calendar/table_calendar.dart';
 import 'package:itu_project/Widgets/Background.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
@@ -18,6 +17,34 @@ class NewTaskView extends StatelessWidget {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
+            appBar: PreferredSize(
+        preferredSize: Size.fromHeight(50),
+        child: Container(
+          decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.bottomRight,
+          end: Alignment.topLeft,
+          stops: [0, 0.01],
+          colors: [
+            Color.fromRGBO(255, 132, 88, 1),
+            Color.fromRGBO(255, 95, 109, 1),
+          ],
+        ),
+      ),
+          child: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            leading: IconButton(
+              color: Colors.black,
+              icon: Icon(Icons.arrow_back),
+              onPressed: (){
+                currentTask = Task();
+                Navigator.pop(context);
+              },
+            ),
+          ),
+        ),
+      ),
       body: Container(
         child: Stack(
           children: <Widget>[
@@ -59,6 +86,24 @@ class NewTaskView extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
+                    if (currentTask.title == null){
+                                         Alert(
+                                  context: context,
+                                  title: "Title of task can not be empty",
+                                  content: WarningDialog(),
+                                  buttons: [
+                                    DialogButton(
+                                      color: Colors.deepOrangeAccent,
+                                      onPressed: () => Navigator.pop(context),
+                                      child: Text(
+                                        "Ok",
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 20),
+                                      ),
+                                    )
+                                  ]).show();
+            return;
+          }
           currentTask.notes = globaNewNote;
           currentTask.done = List.filled(currentTask.steps == null ? 0 : currentTask.steps.length, 0);
           if (loggedUser.todo == null) {
@@ -70,7 +115,13 @@ class NewTaskView extends StatelessWidget {
           globalNewReminder = "";
           globalNewStep = "";
           globalNewSteps = "";
+          if(currentTask.date == null) currentTask.date = DateTime.now().toString();
+          if(currentTask.finishAt == null){
+            currentTask.finishAt = currentTask.date.replaceRange(11, 15, "24:00");
+            
+          }
           currentTask = Task();
+
           Navigator.pop(context);
         },
         label: Text('Save this task'),
@@ -300,7 +351,7 @@ class _CalendarState extends State<Calendar> {
   }
 
   void _onDaySelected(DateTime day, List events) {
-    currentTask.date = _calendarController.selectedDay.toIso8601String();
+    currentTask.date = _calendarController.selectedDay.toString();
     print(currentTask.date);
     setState(() {
       _selectedEvents = events;
@@ -418,6 +469,7 @@ class _ShowPriorityState extends State<ShowPriority> {
                                         });
                                         Navigator.pop(context);
                                         },
+                                      
                                       child: Text(
                                         "Save priority for this task",
                                         style: TextStyle(
@@ -445,6 +497,7 @@ class _ShowPriorityState extends State<ShowPriority> {
                                 currentTask.priority == null ? "" : currentTask.priority.toString(),
                                 style: TextStyle(fontSize: 20),
                               )),
+                             
       ],
     );
   }
@@ -477,10 +530,11 @@ class _CustomTimePickerState extends State<CustomTimePicker> {
               DatePicker.showTimePicker(context,
                   showTitleActions: true,
                   onChanged: (date) {}, onConfirm: (date) {
-                currentTask.finishAt = date.toUtc().toString();
+                currentTask.finishAt = date.toString();
                 _selectedTime = date.toString();
                 setState(() {
                   _selectedTime;
+                  print(_selectedTime);
                 });
               }, currentTime: DateTime.now(), locale: LocaleType.en);
             },
@@ -513,6 +567,17 @@ class NoteDialog extends StatelessWidget {
             globaNewNote = note;
           },
         ),
+      ],
+    );
+  }
+}
+
+class WarningDialog extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+    
       ],
     );
   }
@@ -557,6 +622,8 @@ class StepsDialog extends StatelessWidget {
   }
 }
 
+
+
 class ReminderDialog extends StatelessWidget {
   @override
   int state = 1;
@@ -600,6 +667,7 @@ class _PriorityDialogState extends State<PriorityDialog> {
                 child: Text('${_sliderValue.toInt()}',
                     style: Theme.of(context).textTheme.display1),
               ),
+               Text("Priority, will be displayed as colorful dot, red as max, green as min",style: TextStyle(fontSize: 12),),
       ],
     );
   }
