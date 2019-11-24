@@ -1,0 +1,15 @@
+# All editor specific directories
+.idea
+.vscode
+
+
+# Build directory
+build
+
+android/.gradle
+
+# Flutter specific files
+.flutter-plugins
+.packages
+pubspec.lock
+
