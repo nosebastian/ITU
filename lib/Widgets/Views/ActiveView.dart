@@ -354,6 +354,7 @@ class Task extends StatelessWidget {
                   Container(
                     height: _size.height / 9,
                     child: ListView.builder(
+                        primary: false,
                         itemCount: _steps != null ? _steps.length : 0,
                         itemBuilder: (BuildContext ctxt, int index) {
                           return Padding(

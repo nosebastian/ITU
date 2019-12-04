@@ -295,6 +295,8 @@ class _StepsState extends State<Steps> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+
+        primary: false,
                               itemCount: currentTask.steps == null
                                   ? 0
                                   : currentTask.steps.length,

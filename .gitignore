@@ -7,6 +7,7 @@
 build
 
 android/.gradle
+android/.settings
 
 # Flutter specific files
 .flutter-plugins
