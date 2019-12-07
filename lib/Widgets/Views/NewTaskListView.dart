@@ -150,7 +150,7 @@ class PickColorWidgetState extends State<PickColorWidget> {
                   print("Another little color change");
                    print(_currentColor.toString());
                   setState(() {
-                    ;
+                    globalNewColor = _currentColor;
                   });
                   Navigator.of(context).pop();
                   },
