@@ -29,6 +29,7 @@ class NewTaskListFormState extends State<NewTaskListForm> {
     // Build a Form widget using the _formKey created above.
     return Container(
       padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
+      height: MediaQuery.of(context).size.height,
       child: Column(
         children: <Widget>[
           Container(
@@ -131,14 +132,26 @@ class PickColorWidgetState extends State<PickColorWidget> {
                   Colors.pink,
                   Colors.brown,
                 ],
-                pickerColor: Colors.limeAccent,
-                onColorChanged: _changeColor,
+                pickerColor: Color(0xffff00),
+                onColorChanged: ((color){
+                  _currentColor = color;
+                  setState(() {
+                    _currentColor;
+                    print("Currently chosen color is: ");
+                    print(_currentColor.toString());
+                  });
+                }),
               ),
             ),
             actions: <Widget>[
               FlatButton(
                 child: const Text('Done'),
                 onPressed: () {
+                  print("Another little color change");
+                   print(_currentColor.toString());
+                  setState(() {
+                    ;
+                  });
                   Navigator.of(context).pop();
                   },
                 ),
@@ -153,6 +166,7 @@ class PickColorWidgetState extends State<PickColorWidget> {
 
 
 class NewTaskListView extends StatelessWidget {
+  
   @override
   Widget build (BuildContext context) {
     final _size = MediaQuery.of(context).size;
@@ -190,22 +204,31 @@ class NewTaskListView extends StatelessWidget {
       body: 
       Stack(
         children: <Widget>[
-          BackGround(),
-          Column(
-            children: <Widget>[
-              SizedBox(height: 40,),
-              Container(
-                width: _size.width,
-                height: _size.height-96,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(25), topRight: Radius.circular(25)
+                      Positioned(
+              child: BackGround(),
+            ),
+          Positioned
+          (
+            top: _size.height / 100,
+              bottom: 0,
+              width: _size.width,
+                      child: Container(
+                        child: ListView(
+              children: <Widget>[
+                SizedBox(height: 40,),
+                Container(
+                  width: _size.width,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(25), topRight: Radius.circular(25)
+                    ),
                   ),
+                  child: NewTaskListForm(),
                 ),
-                child: NewTaskListForm(),
-              ),
-            ],
+              ],
+            ),
+                      ),
           ),
         ],
       ),

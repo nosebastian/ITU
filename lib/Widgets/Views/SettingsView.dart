@@ -33,28 +33,8 @@ class SettingsView extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: Row(
                           children: <Widget>[
-                            RadioButtonImportance(index: 1),
-                            new Text("Show notes with priority 0",style: TextStyle(color: Colors.black,fontWeight: FontWeight.w500,fontSize: 16),),
-                          ],
-                        ),
-                      ),
-
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: <Widget>[
                             RadioButtonImportance(index: 2),
-                            new Text("Show notes with priority 1",style: TextStyle(color: Colors.black,fontWeight: FontWeight.w500,fontSize: 16),),
-                          ],
-                        ),
-                      ),
-
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: <Widget>[
-                            RadioButtonImportance(index: 3),
-                            new Text("Show notes with priority 2",style: TextStyle(color: Colors.black,fontWeight: FontWeight.w500,fontSize: 16),),
+                            new Text("Show notes with higher priority",style: TextStyle(color: Colors.black,fontWeight: FontWeight.w500,fontSize: 16),),
                           ],
                         ),
                       ),

@@ -11,7 +11,7 @@ import '../../Bloc/reload_list_bloc.dart';
 class TaskListView extends StatelessWidget {
   @override
   Widget build (BuildContext context) {
-    final _size = MediaQuery.of(context).size;
+    final size = MediaQuery.of(context).size;
     return new Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(30),
@@ -43,17 +43,22 @@ class TaskListView extends StatelessWidget {
           ),
         ),
       ),
-      body: Stack(
-        children: <Widget>[
-          BackGround(),
-          Column(children: <Widget>[
-            SizedBox(height: 40),
-            TaskListBackgroundWidget(
-              size: _size
+      body: Container(
+        child: Stack(
+          children: <Widget>[
+            Positioned(
+              child: BackGround(),
+            ),
+                        Positioned(
+              top: size.height / 11,
+              bottom: 0,
+              width: size.width,
+              child: TaskListBackgroundWidget(
+                size: size,
+              ),
             ),
           ],
-          )
-        ],
+        ),
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
@@ -81,7 +86,7 @@ class TaskListBackgroundWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return new Container(
-      height: size.height - 94,
+      height: size.height *0.7,
       width: size.width,
       decoration: BoxDecoration(
         color: Colors.white,
@@ -104,7 +109,7 @@ class TaskListBackgroundWidget extends StatelessWidget {
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: loggedUser.taskLists.length,
+              itemCount: (loggedUser.taskLists == null)?0:loggedUser.taskLists.length,
               itemBuilder: (BuildContext context, int index) {
                 return TaskListViewItem(
                   size: _size,
