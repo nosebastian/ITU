@@ -67,22 +67,23 @@ class NewTaskView extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-                    if (currentTask.title == null){
-                                         Alert(
-                                  context: context,
-                                  title: "Title of task can not be empty",
-                                  content: WarningDialog(),
-                                  buttons: [
-                                    DialogButton(
-                                      color: Colors.deepOrangeAccent,
-                                      onPressed: () => Navigator.pop(context),
-                                      child: Text(
-                                        "Ok",
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 20),
-                                      ),
-                                    )
-                                  ]).show();
+          if (currentTask.title == null){
+            Alert(
+              context: context,
+              title: "Title of task can not be empty",
+              content: WarningDialog(),
+              buttons: [
+                DialogButton(
+                  color: Colors.deepOrangeAccent,
+                  onPressed: () => Navigator.pop(context),
+                  child: Text(
+                    "Ok",
+                    style: TextStyle(
+                        color: Colors.white, fontSize: 20),
+                  ),
+                )
+              ]
+            ).show();
             return;
           }
           currentTask.notes = globaNewNote;

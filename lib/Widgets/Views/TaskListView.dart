@@ -11,7 +11,7 @@ import '../../Bloc/reload_list_bloc.dart';
 class TaskListView extends StatelessWidget {
   @override
   Widget build (BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    final _size = MediaQuery.of(context).size;
     return new Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(30),
@@ -47,8 +47,10 @@ class TaskListView extends StatelessWidget {
         children: <Widget>[
           BackGround(),
           Column(children: <Widget>[
-            SizedBox(height: size.height*0.1),
-            TaskListBackgroundWidget(),
+            SizedBox(height: 40),
+            TaskListBackgroundWidget(
+              size: _size
+            ),
           ],
           )
         ],
@@ -69,11 +71,17 @@ class TaskListView extends StatelessWidget {
 }
 
 class TaskListBackgroundWidget extends StatelessWidget {
+  TaskListBackgroundWidget ({
+    Key key,
+    @required Size size
+  }) :
+    _size = size;
+  final Size _size;
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return new Container(
-      height: size.height * 0.7,
+      height: size.height - 94,
       width: size.width,
       decoration: BoxDecoration(
         color: Colors.white,
@@ -84,9 +92,8 @@ class TaskListBackgroundWidget extends StatelessWidget {
       child:
       Column(
         children: <Widget>[
-          
           Container(
-            padding: EdgeInsets.fromLTRB(20, 10, 0, 0),
+            padding: EdgeInsets.fromLTRB(20, 10, 0, 30),
             child: Text(
               "Lists of tasks",
               style: TextStyle(
@@ -95,26 +102,84 @@ class TaskListBackgroundWidget extends StatelessWidget {
                   fontWeight: FontWeight.w600),
             ),
           ),
-          Container(
-                    height: size.height / 9,
-                    child: ListView.builder(
-                        primary: false,
-                        itemCount: 0,
-                        itemBuilder: (BuildContext ctxt, int index) {
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: new Text(
-                              "- ",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16),
-                            ),
-                          );
-                        }),
-                  ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: loggedUser.taskLists.length,
+              itemBuilder: (BuildContext context, int index) {
+                return TaskListViewItem(
+                  size: _size,
+                  name: loggedUser.taskLists[index].name, 
+                  color: loggedUser.taskLists[index].color,
+                );
+              }
+            ),
+          ),
         ],
       )
+    );
+  }
+}
+
+class TaskListViewItem extends StatelessWidget {
+  TaskListViewItem({
+    Key key,
+    @required Size size,
+    @required String name,
+    @required Color color
+  })  : 
+    _size = size,
+    _name = name,
+    _color = color,
+    super(key: key);
+  
+  final String _name;
+  final Color _color;
+  final Size _size;
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        Container(
+          width: _size.width/1.2,
+          padding: EdgeInsets.fromLTRB(30, 30, 30, 30),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(25),
+            gradient: LinearGradient(
+              begin: Alignment.bottomRight,
+              end: Alignment.topLeft,
+              stops: [0.3, 1],
+              colors: [
+                Color.fromRGBO(255, 132, 88, 1),
+                Color.fromRGBO(255, 95, 109, 1),
+              ],
+            ),
+          ),
+          child: Row(
+            children: <Widget>[
+              Text(
+                _name,
+                style: TextStyle(
+                  color: Colors.white70,
+                  fontSize: 25,
+                ),
+              ),
+              SizedBox(
+                width: 20,
+              ),
+              Icon(
+                Icons.brightness_1,
+                color: _color,
+                size: 20,
+              )
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 20,
+        )
+      ],
     );
   }
 }

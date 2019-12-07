@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:itu_project/TaskList.dart';
 import 'package:itu_project/Widgets/Views/DetailView.dart';
 import 'package:itu_project/Widgets/Views/SettingsView.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'NewTaskView.dart';
 import 'package:itu_project/Widgets/Background.dart';
@@ -8,7 +10,8 @@ import 'package:flutter_colorpicker/block_picker.dart';
 import '../../User.dart';
 import '../../Bloc/reload_list_bloc.dart';
 
-Color pickerColor = Color(0xff443a49);
+String globaNewName = "";
+Color globalNewColor = Colors.amber;
 
 class NewTaskListForm extends StatefulWidget {
   @override
@@ -17,9 +20,9 @@ class NewTaskListForm extends StatefulWidget {
   }
 }
 
-
 class NewTaskListFormState extends State<NewTaskListForm> {
   final _formKey = GlobalKey<FormState>();
+  TaskList currentTaskList = new TaskList();
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +63,7 @@ class NewTaskListFormState extends State<NewTaskListForm> {
             style: TextStyle(
                 fontSize: 22, fontWeight: FontWeight.bold),
             onChanged: ((value) {
-              //TODO
+              globaNewName = value;
             }),
           ),
           SizedBox(
@@ -70,17 +73,6 @@ class NewTaskListFormState extends State<NewTaskListForm> {
         ],
       ),
     );
-    
-      /*TextFormField(
-        
-        validator: (value) {
-          if (value.isEmpty) {
-            return 'Please enter name of tast list';
-          }
-          return null;
-        },
-      )*/
-
   }
 }
 
@@ -92,7 +84,13 @@ class PickColorWidget extends StatefulWidget {
 }
 
 class PickColorWidgetState extends State<PickColorWidget> {
-  Color currentColor = Colors.pinkAccent;
+  Color _currentColor = Colors.grey;
+  void _changeColor(Color color) {
+    setState(() {
+      globalNewColor = color;
+      _currentColor = color;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return new GestureDetector(
@@ -111,12 +109,12 @@ class PickColorWidgetState extends State<PickColorWidget> {
           ),
           Icon(
             Icons.brightness_1,
-            color: currentColor,
+            color: _currentColor,
             size: 25,
           ),
         ],
       ),
-      onTap: () => {
+      onTap: (() {
         showDialog(
           context: context,
           builder: ((BuildContext context){
@@ -125,35 +123,30 @@ class PickColorWidgetState extends State<PickColorWidget> {
             content: SingleChildScrollView(
               child: BlockPicker(
                 availableColors: <Color>[
-                  Colors.amberAccent,
-                  Colors.blueAccent,
-                  Colors.redAccent,
-                  Colors.orangeAccent,
-                  Colors.greenAccent,
-                  Colors.pinkAccent,
+                  Colors.amber,
+                  Colors.blue,
+                  Colors.red,
+                  Colors.orange,
+                  Colors.green,
+                  Colors.pink,
                   Colors.brown,
                 ],
-                pickerColor: Color(0xffff00),
-                onColorChanged: ((Color color){
-                  setState(() {
-                    currentColor = color;
-                  });
-                }),
+                pickerColor: Colors.limeAccent,
+                onColorChanged: _changeColor,
               ),
             ),
             actions: <Widget>[
               FlatButton(
                 child: const Text('Done'),
                 onPressed: () {
-                  setState(() => currentColor = pickerColor);
                   Navigator.of(context).pop();
                   },
                 ),
               ],
             );
           }),
-        )
-      }
+        );
+      })
     );
   }
 }
@@ -203,6 +196,7 @@ class NewTaskListView extends StatelessWidget {
               SizedBox(height: 40,),
               Container(
                 width: _size.width,
+                height: _size.height-96,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
@@ -217,8 +211,37 @@ class NewTaskListView extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => NewTaskView()));
+          if(globaNewName != "")
+          {
+            TaskList newTaskList = new TaskList();
+            newTaskList.name = globaNewName;
+            globaNewName = "";
+            newTaskList.color = globalNewColor;
+            if(loggedUser.taskLists == null)
+              loggedUser.taskLists = [newTaskList];
+            else
+              loggedUser.taskLists.add(newTaskList);
+          }
+          else
+          {
+            Alert(
+              context: context,
+              title: "Name of task list cannot be empty",
+              content: WarningDialog(),
+              buttons: [
+                DialogButton(
+                  color: Colors.deepOrangeAccent,
+                  onPressed: () => Navigator.pop(context),
+                  child: Text(
+                    "Ok",
+                    style: TextStyle(
+                        color: Colors.white, fontSize: 20),
+                  ),
+                )
+              ]).show();
+              return;
+          }
+          Navigator.pop(context);
         },
         label: Text('New task list'),
         icon: Icon(Icons.add),
