@@ -25,7 +25,22 @@ class User{
     this._showDate = showDate;
   }
 
-  List<Task> get todaysTasks => this._todaysTasks;
+  List<Task> get todaysTasks {
+    List<Task> returnList = this._todaysTasks;
+    for (var i = 0; i < ((this._taskLists != null)?this._taskLists.length:0); i++) {
+      if(returnList == null)
+      {
+        returnList = this._taskLists[i].taskList;
+      }
+      else if(this._taskLists[i].taskList != null)
+      {
+        for (var j = 0; j < this._taskLists[i].taskList.length; j++) {
+          returnList.add(this._taskLists[i].taskList[j]);
+        }
+      }
+    }
+    return returnList;
+  }
 
   set todaysTasks(List<Task> todaysTasks){
     this._todaysTasks = todaysTasks;
