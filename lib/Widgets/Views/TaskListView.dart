@@ -43,15 +43,20 @@ class TaskListView extends StatelessWidget {
           ),
         ),
       ),
-      body: Stack(
-        children: <Widget>[
-          BackGround(),
-          Column(children: <Widget>[
-            SizedBox(height: size.height*0.1),
-            TaskListBackgroundWidget(),
+      body: Container(
+        child: Stack(
+          children: <Widget>[
+            Positioned(
+              child: BackGround(),
+            ),
+                        Positioned(
+              top: size.height / 11,
+              bottom: 0,
+              width: size.width,
+              child: TaskListBackgroundWidget(),
+            ),
           ],
-          )
-        ],
+        ),
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
@@ -73,7 +78,7 @@ class TaskListBackgroundWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return new Container(
-      height: size.height * 0.7,
+      height: size.height *0.7,
       width: size.width,
       decoration: BoxDecoration(
         color: Colors.white,

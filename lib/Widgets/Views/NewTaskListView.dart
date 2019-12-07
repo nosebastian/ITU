@@ -26,6 +26,7 @@ class NewTaskListFormState extends State<NewTaskListForm> {
     // Build a Form widget using the _formKey created above.
     return Container(
       padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
+      height: MediaQuery.of(context).size.height,
       child: Column(
         children: <Widget>[
           Container(
@@ -92,7 +93,7 @@ class PickColorWidget extends StatefulWidget {
 }
 
 class PickColorWidgetState extends State<PickColorWidget> {
-  Color currentColor = Colors.pinkAccent;
+  Color _currentColor = Colors.pinkAccent;
   @override
   Widget build(BuildContext context) {
     return new GestureDetector(
@@ -111,7 +112,7 @@ class PickColorWidgetState extends State<PickColorWidget> {
           ),
           Icon(
             Icons.brightness_1,
-            color: currentColor,
+            color: _currentColor,
             size: 25,
           ),
         ],
@@ -134,9 +135,12 @@ class PickColorWidgetState extends State<PickColorWidget> {
                   Colors.brown,
                 ],
                 pickerColor: Color(0xffff00),
-                onColorChanged: ((Color color){
+                onColorChanged: ((color){
+                  _currentColor = color;
                   setState(() {
-                    currentColor = color;
+                    _currentColor;
+                    print("Currently chosen color is: ");
+                    print(_currentColor.toString());
                   });
                 }),
               ),
@@ -145,7 +149,11 @@ class PickColorWidgetState extends State<PickColorWidget> {
               FlatButton(
                 child: const Text('Done'),
                 onPressed: () {
-                  setState(() => currentColor = pickerColor);
+                  print("Another little color change");
+                   print(pickerColor.toString());
+                  setState(() {
+                    ;
+                  });
                   Navigator.of(context).pop();
                   },
                 ),
@@ -160,6 +168,7 @@ class PickColorWidgetState extends State<PickColorWidget> {
 
 
 class NewTaskListView extends StatelessWidget {
+  
   @override
   Widget build (BuildContext context) {
     final _size = MediaQuery.of(context).size;
@@ -197,21 +206,31 @@ class NewTaskListView extends StatelessWidget {
       body: 
       Stack(
         children: <Widget>[
-          BackGround(),
-          Column(
-            children: <Widget>[
-              SizedBox(height: 40,),
-              Container(
-                width: _size.width,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(25), topRight: Radius.circular(25)
+                      Positioned(
+              child: BackGround(),
+            ),
+          Positioned
+          (
+            top: _size.height / 100,
+              bottom: 0,
+              width: _size.width,
+                      child: Container(
+                        child: ListView(
+              children: <Widget>[
+                SizedBox(height: 40,),
+                Container(
+                  width: _size.width,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(25), topRight: Radius.circular(25)
+                    ),
                   ),
+                  child: NewTaskListForm(),
                 ),
-                child: NewTaskListForm(),
-              ),
-            ],
+              ],
+            ),
+                      ),
           ),
         ],
       ),

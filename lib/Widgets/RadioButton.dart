@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:itu_project/Task.dart';
 import 'package:itu_project/User.dart';
+import './Views/NewTaskView.dart';
 
 class RadioButton extends StatefulWidget {
     RadioButton({
@@ -72,6 +74,43 @@ class RadioButtonImportanceState extends State<RadioButtonImportance> {
       int i = isChecked ? 1 : 0;
       loggedUser.showOnly[widget.index] = i;
 
+    });
+  },
+);
+  }
+}
+
+
+
+class RadioButtonPriority extends StatefulWidget {
+    RadioButtonPriority({
+    int index,
+  }) : index = index;
+
+
+  final int index;
+  @override
+
+  RadioButtonPriorityState createState() {
+    return new RadioButtonPriorityState();
+  }
+}
+
+class RadioButtonPriorityState extends State<RadioButtonPriority> {
+
+
+  @override
+  Widget build(BuildContext context) {
+  bool isChecked = currentTask.priority == 1 ? true : false;
+    return Checkbox(
+      activeColor: Colors.deepOrange,
+  
+  value: isChecked,
+  onChanged: (value) {
+    setState(() {
+      isChecked = value;
+      int i = isChecked ? 1 : 0;
+      currentTask.priority = i;
     });
   },
 );

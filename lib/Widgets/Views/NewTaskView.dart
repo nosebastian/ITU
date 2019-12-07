@@ -4,6 +4,7 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:itu_project/Widgets/Background.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import '../RadioButton.dart';
 import '../../User.dart';
 
 String globaNewNote = "";
@@ -442,7 +443,7 @@ class _ShowPriorityState extends State<ShowPriority> {
                              Alert(
                                   context: context,
                                   title: "Set priority",
-                                  content: PriorityDialog(),
+                                  content: RadioButtonPriority(),
                                   buttons: [
                                     DialogButton(
                                       color: Colors.deepOrangeAccent,
@@ -464,7 +465,7 @@ class _ShowPriorityState extends State<ShowPriority> {
                                                   child: Container(
                             padding: EdgeInsets.fromLTRB(20, 20, 0, 0),
                             child: Text(
-                              "Set priority for this task",
+                              "Set higher priority for this task",
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 25,
@@ -477,7 +478,7 @@ class _ShowPriorityState extends State<ShowPriority> {
                         Container(
                               padding: EdgeInsets.fromLTRB(20, 10, 0, 0),
                               child: Text(
-                                currentTask.priority == null ? "0" : currentTask.priority.toString(),
+                                 currentTask.priority == null ? "No" : currentTask.priority == 0 ? "No" : "Yes",
                                 style: TextStyle(fontSize: 20),
                               )),
                              

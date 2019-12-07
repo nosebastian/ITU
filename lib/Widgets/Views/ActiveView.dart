@@ -308,7 +308,7 @@ class Task extends StatelessWidget {
       if (_priority == 0)
         priorityColor = Colors.green;
       else if (_priority == 1)
-        priorityColor = Colors.yellow;
+        priorityColor = Colors.red;
       else
         priorityColor = Colors.red;
     } else {
