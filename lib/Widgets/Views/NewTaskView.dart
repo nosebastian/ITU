@@ -11,6 +11,7 @@ String globaNewNote = "";
 String globalNewSteps = "";
 String globalNewStep = "";
 String globalNewReminder = "";
+int globalPickedGroupIndex = -1;
 
 class NewTaskView extends StatelessWidget {
   @override
@@ -258,6 +259,8 @@ class ListBackGround extends StatelessWidget {
                        
                         ShowReminder(),
                         ShowPriority(),
+                        TaskListPickerWidget(),
+                        SizedBox(height: 100,),
                       ],
                     ),
                   )),
@@ -439,50 +442,37 @@ class _ShowPriorityState extends State<ShowPriority> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        GestureDetector(
-                          onTap: (){
-                             Alert(
-                                  context: context,
-                                  title: "Set priority",
-                                  content: RadioButtonPriority(),
-                                  buttons: [
-                                    DialogButton(
-                                      color: Colors.deepOrangeAccent,
-                                      onPressed: () {
-                                        setState(() {
-                                          
-                                        });
-                                        Navigator.pop(context);
-                                        },
-                                      
-                                      child: Text(
-                                        "Save priority for this task",
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 20),
-                                      ),
-                                    )
-                                  ]).show();
-                          },
-                                                  child: Container(
-                            padding: EdgeInsets.fromLTRB(20, 20, 0, 0),
-                            child: Text(
-                              "Set higher priority for this task",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                            
-                          ),
-                          
-                        ),
-                        Container(
-                              padding: EdgeInsets.fromLTRB(20, 10, 0, 0),
-                              child: Text(
-                                 currentTask.priority == null ? "No" : currentTask.priority == 0 ? "No" : "Yes",
-                                style: TextStyle(fontSize: 20),
-                              )),
-                             
+        Container(
+          padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+          child: Row(
+            children: <Widget>[
+              Container(
+                child: Text(
+                  "Set higher priority",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 25,
+                    fontWeight: FontWeight.w500
+                  ),
+                ),
+              ),
+              Expanded(
+                child: SizedBox(),
+              ),
+              Container(
+                child: Switch(
+                  value: false,
+                  activeColor: Colors.pink,
+                  onChanged: ((bool newValue){
+                    setState(() {
+                      currentTask.priority = (newValue)?1:0;
+                    });
+                  }),
+                ),
+              )
+            ],
+          ),
+        ),
       ],
     );
   }
@@ -699,3 +689,127 @@ class _CustomTimePickerStateWithDate extends State<CustomTimePickerWithDate> {
     );
   }
 }
+
+
+class TaskListPickerWidget extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return TaskListPickerState();
+  }
+}
+
+
+class TaskListPickerState extends State<TaskListPickerWidget> {
+  int _radioButtonGroup = 122;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        GestureDetector(
+
+          child: Container(
+            padding: EdgeInsets.fromLTRB(20, 20, 20, 5),
+            child: Row(
+              children: <Widget>[
+                Text(
+                  "Add to task list ",
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 25,
+                    fontWeight: FontWeight.w500
+                  ),
+                ),
+                Icon(
+                  Icons.add,
+                  color: Colors.black,
+                  size: 25,
+                ),
+              ],
+            )
+          ),
+          onTap: ((){
+            Alert(
+              context: context,
+              title: "Chose task list",
+              content: Container(
+                width: 300,
+                height: 200,
+                child: ListView.builder(
+                  itemCount: (loggedUser.taskLists == null)?0:loggedUser.taskLists.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                      child: Row(
+                        children: <Widget>[
+                          Icon(
+                            Icons.brightness_1,
+                            color: loggedUser.taskLists[index].color,
+                            size: 20,
+                          ),
+                          SizedBox(width: 10,),
+                          Text(
+                            loggedUser.taskLists[index].name,
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                          Expanded(
+                            child: SizedBox(),
+                          ),
+                          Radio(
+                            groupValue: _radioButtonGroup,
+                            value: index,
+                            activeColor: Colors.pink,
+                            onChanged: ((int newValue){
+                              setState(() {
+                                globalPickedGroupIndex = newValue;
+                              });
+                            }),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+                ),
+              ),
+              
+              buttons: [
+                DialogButton(
+                  color: Colors.deepOrangeAccent,
+                  onPressed: ()  {
+                    setState(() {
+                    });
+                    Navigator.pop(context);
+                    },
+                  child: Text(
+                    "Pick a task list",
+                    style: TextStyle(
+                        color: Colors.white, fontSize: 20),
+                  ),
+                )
+              ] 
+
+            ).show();
+          }),
+        ),
+        Container(
+          padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
+            child: Text(
+              "Task list",
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                color: Colors.black54,
+                fontSize: 17,
+                fontWeight: FontWeight.w500
+              ),
+            ),
+        )
+      ],
+    );
+  }
+}
+
+
+
+
