@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:itu_project/TaskList.dart';
+
 import 'Task.dart';
 
 class User{
@@ -7,6 +9,7 @@ class User{
   List<Task> _todaysTasks;
   DateTime _showDate;
   List<int> _showOnly;
+  List<TaskList> _taskLists;
 
   set name(String name){
     this._name = name;
@@ -32,13 +35,17 @@ class User{
     this._showOnly = showOnly;
   }
 
+  set taskLists(List<TaskList> taskLists) {
+    this._taskLists = taskLists;
+  }
+
   List<int> get showOnly => this._showOnly;
 
   DateTime get showDate => this._showDate;
 
   List<Task> get todo => this._todo;
 
-
+  List<TaskList> get taskLists => this._taskLists;
 }
 
 User loggedUser = User();  

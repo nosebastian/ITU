@@ -27,6 +27,7 @@ dependencies:
   table_calendar: ^2.2.1
   flutter_datetime_picker: ^1.2.8
   rflutter_alert: ^1.0.3
+  flutter_colorpicker: any
 
 
 

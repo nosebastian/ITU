@@ -6,6 +6,7 @@ import 'NewTaskView.dart';
 import 'package:itu_project/Widgets/Background.dart';
 import '../../User.dart';
 import '../../Bloc/reload_list_bloc.dart';
+import 'TaskListView.dart';
 
 int numOfTask = 0;
 
@@ -52,7 +53,7 @@ class ActiveView extends StatelessWidget {
     }
     numOfTask =
         loggedUser.todaysTasks == null ? 0 : loggedUser.todaysTasks.length;
-    double fromLeft = size.width / 1.2;
+    double fromLeft = size.width / 1.4;
     return Scaffold(
       body: StreamBuilder<int>(
           stream: controller.publicRebuild,
@@ -72,21 +73,43 @@ class ActiveView extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Container(
-                                  padding:
-                                      EdgeInsets.fromLTRB(fromLeft, 0, 0, 0),
-                                  child: GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    SettingsView()));
-                                      },
-                                      child: Icon(
-                                        Icons.settings,
-                                        color: Colors.white60,
-                                      )),
+                                Row(
+                                  children: <Widget>[
+                                    Container(
+                                      padding: EdgeInsets.fromLTRB(
+                                        fromLeft, 0, 0, 0
+                                      ),
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      TaskListView()));
+                                        },
+                                        child: Icon(
+                                          Icons.collections_bookmark,
+                                          color: Colors.white60,
+                                        )),
+                                    ),
+                                    Container(
+                                      padding: EdgeInsets.fromLTRB(
+                                        10, 0, 0, 0
+                                      ),
+                                      child: GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        SettingsView()));
+                                          },
+                                          child: Icon(
+                                            Icons.settings,
+                                            color: Colors.white60,
+                                          )),
+                                    ),
+                                  ],
                                 ),
                                 Container(
                                   alignment: Alignment.topLeft,
@@ -168,7 +191,7 @@ class ListBackGround extends StatelessWidget {
         String taskDate =
             loggedUser.todo[i].date != null ? loggedUser.todo[i].date : "";
         taskDate = taskDate == "" ? "" : taskDate.substring(0, 10);
-                if (taskDate == chosenDate && loggedUser.showOnly[0] == 1) {
+        if (taskDate == chosenDate && loggedUser.showOnly[0] == 1) {
           // Show all
           loggedUser.todaysTasks.add(loggedUser.todo[i]);
         } else {
@@ -204,7 +227,8 @@ class ListBackGround extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(25), topRight: Radius.circular(25)),
+          topLeft: Radius.circular(25), topRight: Radius.circular(25)
+        ),
       ),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(20, 130, 20, 0),
@@ -416,7 +440,7 @@ class _CalendarState extends State<Calendar> {
         String taskDate =
             loggedUser.todo[i].date != null ? loggedUser.todo[i].date : "";
         taskDate = taskDate == "" ? "" : taskDate.substring(0, 10);
-                if (taskDate == chosenDate && loggedUser.showOnly[0] == 1) {
+        if (taskDate == chosenDate && loggedUser.showOnly[0] == 1) {
           // Show all
           loggedUser.todaysTasks.add(loggedUser.todo[i]);
         } else {

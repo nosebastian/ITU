@@ -36,7 +36,10 @@ class NewTaskView extends StatelessWidget {
             elevation: 0,
             leading: IconButton(
               color: Colors.black,
-              icon: Icon(Icons.arrow_back),
+              icon: Icon(
+                Icons.arrow_back,
+                color: Colors.white60
+              ),
               onPressed: (){
                 currentTask = Task();
                 Navigator.pop(context);
@@ -50,28 +53,6 @@ class NewTaskView extends StatelessWidget {
           children: <Widget>[
             Positioned(
               child: BackGround(),
-            ),
-            Positioned(
-              top: size.height / 20,
-              child: Container(
-                padding: EdgeInsets.only(left: 30),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        "Hi " + loggedUser.name,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 25,
-                        ),
-                        textAlign: TextAlign.left,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
             ),
             Positioned(
               top: size.height / 11,
