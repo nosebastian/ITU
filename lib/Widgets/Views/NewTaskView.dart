@@ -700,7 +700,7 @@ class TaskListPickerWidget extends StatefulWidget {
 
 
 class TaskListPickerState extends State<TaskListPickerWidget> {
-  int _radioButtonGroup = 122;
+ 
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -733,46 +733,7 @@ class TaskListPickerState extends State<TaskListPickerWidget> {
             Alert(
               context: context,
               title: "Chose task list",
-              content: Container(
-                width: 300,
-                height: 200,
-                child: ListView.builder(
-                  itemCount: (loggedUser.taskLists == null)?0:loggedUser.taskLists.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Container(
-                      child: Row(
-                        children: <Widget>[
-                          Icon(
-                            Icons.brightness_1,
-                            color: loggedUser.taskLists[index].color,
-                            size: 20,
-                          ),
-                          SizedBox(width: 10,),
-                          Text(
-                            loggedUser.taskLists[index].name,
-                            style: TextStyle(
-                              fontSize: 20,
-                            ),
-                          ),
-                          Expanded(
-                            child: SizedBox(),
-                          ),
-                          Radio(
-                            groupValue: _radioButtonGroup,
-                            value: index,
-                            activeColor: Colors.pink,
-                            onChanged: ((int newValue){
-                              setState(() {
-                                globalPickedGroupIndex = newValue;
-                              });
-                            }),
-                          ),
-                        ],
-                      ),
-                    );
-                  }
-                ),
-              ),
+              content: AlertTaskPicker(),
               
               buttons: [
                 DialogButton(
@@ -813,3 +774,65 @@ class TaskListPickerState extends State<TaskListPickerWidget> {
 
 
 
+class AlertTaskPicker extends StatefulWidget {
+  @override
+  _AlertTaskPickerState createState() => _AlertTaskPickerState();
+}
+
+class _AlertTaskPickerState extends State<AlertTaskPicker> {
+  int radioButtonGroup = 122;
+  @override
+
+    void initState() {
+    setState(() {
+      radioButtonGroup = globalPickedGroupIndex;
+    });
+    super.initState();
+  }
+   
+  Widget build(BuildContext context) {
+    return Container(
+                width: 300,
+                height: 200,
+                child: ListView.builder(
+                  itemCount: (loggedUser.taskLists == null)?0:loggedUser.taskLists.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                      child: Row(
+                        children: <Widget>[
+                          Icon(
+                            Icons.brightness_1,
+                            color: loggedUser.taskLists[index].color,
+                            size: 20,
+                          ),
+                          SizedBox(width: 10,),
+                          Text(
+                            loggedUser.taskLists[index].name,
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                          Expanded(
+                            child: SizedBox(),
+                          ),
+                          Radio(
+                            groupValue: radioButtonGroup,
+                            value: index,
+                            activeColor: Colors.pink,
+                            onChanged: ((newValue){
+                              setState(() {
+                                print("Value change");
+                                print(newValue);
+                                radioButtonGroup = newValue;
+                                globalPickedGroupIndex = newValue;
+                              });
+                            }),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+                ),
+              );
+  }
+}
