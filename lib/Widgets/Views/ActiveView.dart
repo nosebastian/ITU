@@ -9,6 +9,7 @@ import '../../Bloc/reload_list_bloc.dart';
 import 'TaskListView.dart';
 
 int numOfTask = 0;
+int selectedTaskList = -1;
 
 class ActiveView extends StatelessWidget {
   @override

@@ -98,7 +98,8 @@ class NewTaskView extends StatelessWidget {
           }
           globalNewReminder = "";
           globalNewStep = "";
-          globalNewSteps = "";
+          globaNewNote = "";
+          globalPickedGroupIndex = -1;
           if(currentTask.date == null) currentTask.date = DateTime.now().toString();
           if(currentTask.finishAt == null){
             currentTask.finishAt = currentTask.date.replaceRange(11, 15, "24:00");
@@ -756,14 +757,24 @@ class TaskListPickerState extends State<TaskListPickerWidget> {
         ),
         Container(
           padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
-            child: Text(
-              "Task list",
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                color: Colors.black54,
-                fontSize: 17,
-                fontWeight: FontWeight.w500
-              ),
+            child: Row(
+              children: <Widget>[
+                Icon(
+                  Icons.brightness_1,
+                  size: 17,
+                  color: (globalPickedGroupIndex != -1)?loggedUser.taskLists[globalPickedGroupIndex].color:Colors.grey,
+                ),
+                SizedBox(width: 10,),
+                Text(
+                  (globalPickedGroupIndex != -1)?loggedUser.taskLists[globalPickedGroupIndex].name:"No list selected",
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    color: Colors.black54,
+                    fontSize: 17,
+                    fontWeight: FontWeight.w500
+                  ),
+                ),
+              ],
             ),
         )
       ],
