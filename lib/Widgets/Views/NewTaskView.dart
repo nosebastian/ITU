@@ -90,12 +90,25 @@ class NewTaskView extends StatelessWidget {
           }
           currentTask.notes = globaNewNote;
           currentTask.done = List.filled(currentTask.steps == null ? 0 : currentTask.steps.length, 0);
-          if (loggedUser.todo == null) {
+          if(globalPickedGroupIndex == -1)
+          {
+            if (loggedUser.todo == null) {
             List<Task> firstTask = [currentTask];
             loggedUser.todo = firstTask;
-          } else {
-            loggedUser.todo.add(currentTask);
+            } else {
+              loggedUser.todo.add(currentTask);
+            }
           }
+          else
+          {
+            if (loggedUser.taskLists[globalPickedGroupIndex].taskList == null) {
+              List<Task> firstTask = [currentTask];
+              loggedUser.taskLists[globalPickedGroupIndex].taskList = firstTask;
+            } else {
+              loggedUser.taskLists[globalPickedGroupIndex].taskList.add(currentTask);
+            }
+          }
+          
           globalNewReminder = "";
           globalNewStep = "";
           globaNewNote = "";
@@ -806,7 +819,7 @@ class _AlertTaskPickerState extends State<AlertTaskPicker> {
                 width: 300,
                 height: 200,
                 child: ListView.builder(
-                  itemCount: (loggedUser.taskLists == null)?0:loggedUser.taskLists.length,
+                  itemCount: (loggedUser.taskLists != null)?loggedUser.taskLists.length:0,
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
                       child: Row(

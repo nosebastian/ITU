@@ -16,7 +16,7 @@ class TaskList {
   set color(Color color){
     this._color = color;
   }
-  set askList(List<Task> taskList){
+  set taskList(List<Task> taskList){
     this._taskList = taskList;
   }
   String get name => this._name;

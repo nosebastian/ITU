@@ -5,6 +5,7 @@ import 'package:itu_project/User.dart';
 
 class SettingsView extends StatelessWidget {
   @override
+  int _groupValue = -1;
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -45,7 +46,7 @@ class SettingsView extends StatelessWidget {
                             autofocus: false,
                             decoration: InputDecoration(
                               hasFloatingPlaceholder: false,
-                              hintText: loggedUser.name == null ? "How we shoul call you..." : loggedUser.name,
+                              hintText: (loggedUser.name == null || loggedUser.name == "") ? "How we shoul call you..." : loggedUser.name,
                               hintStyle:
                                   TextStyle(color: Colors.grey.withOpacity(.5)),
                               focusedBorder: UnderlineInputBorder(
@@ -64,8 +65,95 @@ class SettingsView extends StatelessWidget {
                             }),
                           ),
                         ),
+                        Container(
+                          margin: EdgeInsets.fromLTRB(30, 30, 35, 10),
+                          child: Text(
+                            "Filter by task list",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16
+                            ),
+                          ),
+                        ),
+                        GroupPickerWidget(
+                          groupValue: _groupValue,
+                          color: Colors.grey,
+                          name: "all",
+                          value: -1,
+                        ),
+                        Container(
+                          height: 250,
+                          child: ListView.builder(
+                            itemCount: (loggedUser.taskLists != null)?loggedUser.taskLists.length:0,
+                            itemBuilder: ((BuildContext context, int index) {
+                              return GroupPickerWidget(
+                                groupValue: _groupValue,
+                                color: loggedUser.taskLists[index].color,
+                                name: loggedUser.taskLists[index].name,
+                                value: index,
+                              );
+                            }),
+                          ),
+                        )
+                        
           ],
         ),),
+    );
+  }
+}
+
+class GroupPickerWidget extends StatelessWidget {
+  const GroupPickerWidget({
+    Key key,
+    @required int groupValue,
+    @required Color color,
+    @required String name,
+    @required int value
+  }) : 
+  _groupValue = groupValue, 
+  _color = color,
+  _name = name,
+  _value = value,
+  super(key: key);
+
+  final int _groupValue;
+  final Color _color;
+  final String _name;
+  final int _value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.fromLTRB(30, 10, 35, 10),
+      child: Row(
+        children: <Widget>[
+          Icon(
+            Icons.brightness_1,
+            color: _color,
+            size: 16,
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          Text(
+            _name,
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.w500,
+              fontSize: 16
+            ),
+          ),
+          Expanded(
+            child: SizedBox(),
+          ),
+          Radio(
+            value: _value,
+            groupValue: _groupValue,
+            activeColor: Colors.pink,
+          )
+        ],
+      ),
     );
   }
 }
