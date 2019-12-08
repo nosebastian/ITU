@@ -1,3 +1,5 @@
+// Lukáš Schmelcer (xshme00)
+
 import 'package:flutter/material.dart';
 import 'package:itu_project/Widgets/Views/DetailView.dart';
 import 'package:itu_project/Widgets/Views/SettingsView.dart';
@@ -16,61 +18,104 @@ class ActiveView extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    if(selectedTaskList != -1){
-      if (loggedUser.taskLists != null && loggedUser.showDate != null && loggedUser.taskLists[selectedTaskList] != null) {
+    if (selectedTaskList != -1) {
+      if (loggedUser.taskLists != null &&
+          loggedUser.showDate != null &&
+          loggedUser.taskLists[selectedTaskList] != null) {
+        loggedUser.todaysTasks = [];
+        String chosenDate =
+            loggedUser.showDate != null ? loggedUser.showDate.toString() : "";
+        chosenDate = chosenDate == "" ? "" : chosenDate.substring(0, 10);
+        for (int i = 0;
+            i < loggedUser.taskLists[selectedTaskList].taskList.length;
+            i++) {
+          String taskDate =
+              loggedUser.taskLists[selectedTaskList].taskList[i].date != null
+                  ? loggedUser.taskLists[selectedTaskList].taskList[i].date
+                  : "";
+          taskDate = taskDate == "" ? "" : taskDate.substring(0, 10);
+          if (taskDate == chosenDate && loggedUser.showOnly[0] == 1) {
+            // Show all
+            loggedUser.todaysTasks
+                .add(loggedUser.taskLists[selectedTaskList].taskList[i]);
+          } else {
+            if (taskDate == chosenDate &&
+                loggedUser.showOnly[1] == 1 &&
+                loggedUser.taskLists[selectedTaskList].taskList[i].priority ==
+                    0) {
+              // Fill with priority 0
+              loggedUser.todaysTasks
+                  .add(loggedUser.taskLists[selectedTaskList].taskList[i]);
+            }
+            if (taskDate == chosenDate &&
+                loggedUser.showOnly[2] == 1 &&
+                loggedUser.taskLists[selectedTaskList].taskList[i].priority ==
+                    1) {
+              // Fill with priority 1
+              loggedUser.todaysTasks
+                  .add(loggedUser.taskLists[selectedTaskList].taskList[i]);
+            }
+            if (taskDate == chosenDate &&
+                loggedUser.showOnly[3] == 1 &&
+                loggedUser.taskLists[selectedTaskList].taskList[i].priority ==
+                    2) {
+              // Fill with priority 2
+              loggedUser.todaysTasks
+                  .add(loggedUser.taskLists[selectedTaskList].taskList[i]);
+            }
+          }
+        }
+        loggedUser.todaysTasks.sort((a, b) {
+          return a.finishAt.compareTo(b.finishAt);
+        });
+      }
+    } else if (loggedUser.todo != null && loggedUser.showDate != null) {
       loggedUser.todaysTasks = [];
       String chosenDate =
           loggedUser.showDate != null ? loggedUser.showDate.toString() : "";
       chosenDate = chosenDate == "" ? "" : chosenDate.substring(0, 10);
-      for (int i = 0; i < loggedUser.taskLists[selectedTaskList].taskList.length; i++) {
-        String taskDate =
-            loggedUser.taskLists[selectedTaskList].taskList[i].date != null ? loggedUser.taskLists[selectedTaskList].taskList[i].date : "";
-        taskDate = taskDate == "" ? "" : taskDate.substring(0, 10);
-        if (taskDate == chosenDate && loggedUser.showOnly[0] == 1) {
-          // Show all
-          loggedUser.todaysTasks.add( loggedUser.taskLists[selectedTaskList].taskList[i]);
-        } else {
+      if (loggedUser.taskLists != null) {
+        for (int i = 0; i < loggedUser.taskLists.length; i++) {
+          if (loggedUser.taskLists[i].taskList != null) {
+            for (int j = 0; j < loggedUser.taskLists[i].taskList.length; j++) {
+              if (loggedUser.showDate != null) {
+                String taskDate =
+                    loggedUser.taskLists[i].taskList[j].date != null
+                        ? loggedUser.taskLists[i].taskList[j].date
+                        : "";
+                taskDate = taskDate == "" ? "" : taskDate.substring(0, 10);
+                if (taskDate == chosenDate && loggedUser.showOnly[0] == 1) {
+                  loggedUser.todaysTasks
+                      .add(loggedUser.taskLists[i].taskList[j]);
+                } else {
           if (taskDate == chosenDate &&
               loggedUser.showOnly[1] == 1 &&
-              loggedUser.taskLists[selectedTaskList].taskList[i].priority == 0) {
+              loggedUser.todo[i].priority == 0) {
             // Fill with priority 0
-            loggedUser.todaysTasks.add(loggedUser.taskLists[selectedTaskList].taskList[i]);
+            loggedUser.todaysTasks
+                      .add(loggedUser.taskLists[i].taskList[j]);
           }
           if (taskDate == chosenDate &&
               loggedUser.showOnly[2] == 1 &&
-              loggedUser.taskLists[selectedTaskList].taskList[i].priority == 1) {
+              loggedUser.todo[i].priority == 1) {
             // Fill with priority 1
-            loggedUser.todaysTasks.add(loggedUser.taskLists[selectedTaskList].taskList[i]);
+            loggedUser.todaysTasks
+                      .add(loggedUser.taskLists[i].taskList[j]);
           }
           if (taskDate == chosenDate &&
               loggedUser.showOnly[3] == 1 &&
-              loggedUser.taskLists[selectedTaskList].taskList[i].priority == 2) {
+              loggedUser.todo[i].priority == 2) {
             // Fill with priority 2
-            loggedUser.todaysTasks.add(loggedUser.taskLists[selectedTaskList].taskList[i]);
+            loggedUser.todaysTasks
+                      .add(loggedUser.taskLists[i].taskList[j]);
           }
         }
-      }
-      loggedUser.todaysTasks.sort((a, b) {
-        return a.finishAt.compareTo(b.finishAt);
-      });
-    }
-    }
-    else if (loggedUser.todo != null && loggedUser.showDate != null) {
-      loggedUser.todaysTasks = [];
-          if(loggedUser.taskLists != null){
-      for(int i = 0; i < loggedUser.taskLists.length;i++){
-        if(loggedUser.taskLists[i].taskList != null){
-          for(int j = 0; j < loggedUser.taskLists[i].taskList.length;j++){
-            if(loggedUser.showDate != null){
-              loggedUser.todaysTasks.add( loggedUser.taskLists[i].taskList[j]);
+              }
             }
           }
         }
       }
-    }
-      String chosenDate =
-          loggedUser.showDate != null ? loggedUser.showDate.toString() : "";
-      chosenDate = chosenDate == "" ? "" : chosenDate.substring(0, 10);
+
       for (int i = 0; i < loggedUser.todo.length; i++) {
         String taskDate =
             loggedUser.todo[i].date != null ? loggedUser.todo[i].date : "";
@@ -129,25 +174,22 @@ class ActiveView extends StatelessWidget {
                                   children: <Widget>[
                                     Container(
                                       padding: EdgeInsets.fromLTRB(
-                                        fromLeft, 0, 0, 0
-                                      ),
+                                          fromLeft, 0, 0, 0),
                                       child: GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      TaskListView()));
-                                        },
-                                        child: Icon(
-                                          Icons.collections_bookmark,
-                                          color: Colors.white60,
-                                        )),
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        TaskListView()));
+                                          },
+                                          child: Icon(
+                                            Icons.collections_bookmark,
+                                            color: Colors.white60,
+                                          )),
                                     ),
                                     Container(
-                                      padding: EdgeInsets.fromLTRB(
-                                        10, 0, 0, 0
-                                      ),
+                                      padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
                                       child: GestureDetector(
                                           onTap: () {
                                             Navigator.push(
@@ -234,61 +276,104 @@ class ListBackGround extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if(selectedTaskList != -1){
-      if (loggedUser.taskLists != null && loggedUser.showDate != null && loggedUser.taskLists[selectedTaskList] != null) {
+        if (selectedTaskList != -1) {
+      if (loggedUser.taskLists != null &&
+          loggedUser.showDate != null &&
+          loggedUser.taskLists[selectedTaskList] != null) {
+        loggedUser.todaysTasks = [];
+        String chosenDate =
+            loggedUser.showDate != null ? loggedUser.showDate.toString() : "";
+        chosenDate = chosenDate == "" ? "" : chosenDate.substring(0, 10);
+        for (int i = 0;
+            i < loggedUser.taskLists[selectedTaskList].taskList.length;
+            i++) {
+          String taskDate =
+              loggedUser.taskLists[selectedTaskList].taskList[i].date != null
+                  ? loggedUser.taskLists[selectedTaskList].taskList[i].date
+                  : "";
+          taskDate = taskDate == "" ? "" : taskDate.substring(0, 10);
+          if (taskDate == chosenDate && loggedUser.showOnly[0] == 1) {
+            // Show all
+            loggedUser.todaysTasks
+                .add(loggedUser.taskLists[selectedTaskList].taskList[i]);
+          } else {
+            if (taskDate == chosenDate &&
+                loggedUser.showOnly[1] == 1 &&
+                loggedUser.taskLists[selectedTaskList].taskList[i].priority ==
+                    0) {
+              // Fill with priority 0
+              loggedUser.todaysTasks
+                  .add(loggedUser.taskLists[selectedTaskList].taskList[i]);
+            }
+            if (taskDate == chosenDate &&
+                loggedUser.showOnly[2] == 1 &&
+                loggedUser.taskLists[selectedTaskList].taskList[i].priority ==
+                    1) {
+              // Fill with priority 1
+              loggedUser.todaysTasks
+                  .add(loggedUser.taskLists[selectedTaskList].taskList[i]);
+            }
+            if (taskDate == chosenDate &&
+                loggedUser.showOnly[3] == 1 &&
+                loggedUser.taskLists[selectedTaskList].taskList[i].priority ==
+                    2) {
+              // Fill with priority 2
+              loggedUser.todaysTasks
+                  .add(loggedUser.taskLists[selectedTaskList].taskList[i]);
+            }
+          }
+        }
+        loggedUser.todaysTasks.sort((a, b) {
+          return a.finishAt.compareTo(b.finishAt);
+        });
+      }
+    } else if (loggedUser.todo != null && loggedUser.showDate != null) {
       loggedUser.todaysTasks = [];
       String chosenDate =
           loggedUser.showDate != null ? loggedUser.showDate.toString() : "";
       chosenDate = chosenDate == "" ? "" : chosenDate.substring(0, 10);
-      for (int i = 0; i < loggedUser.taskLists[selectedTaskList].taskList.length; i++) {
-        String taskDate =
-            loggedUser.taskLists[selectedTaskList].taskList[i].date != null ? loggedUser.taskLists[selectedTaskList].taskList[i].date : "";
-        taskDate = taskDate == "" ? "" : taskDate.substring(0, 10);
-        if (taskDate == chosenDate && loggedUser.showOnly[0] == 1) {
-          // Show all
-          loggedUser.todaysTasks.add( loggedUser.taskLists[selectedTaskList].taskList[i]);
-        } else {
+      if (loggedUser.taskLists != null) {
+        for (int i = 0; i < loggedUser.taskLists.length; i++) {
+          if (loggedUser.taskLists[i].taskList != null) {
+            for (int j = 0; j < loggedUser.taskLists[i].taskList.length; j++) {
+              if (loggedUser.showDate != null) {
+                String taskDate =
+                    loggedUser.taskLists[i].taskList[j].date != null
+                        ? loggedUser.taskLists[i].taskList[j].date
+                        : "";
+                taskDate = taskDate == "" ? "" : taskDate.substring(0, 10);
+                if (taskDate == chosenDate && loggedUser.showOnly[0] == 1) {
+                  loggedUser.todaysTasks
+                      .add(loggedUser.taskLists[i].taskList[j]);
+                } else {
           if (taskDate == chosenDate &&
               loggedUser.showOnly[1] == 1 &&
-              loggedUser.taskLists[selectedTaskList].taskList[i].priority == 0) {
+              loggedUser.todo[i].priority == 0) {
             // Fill with priority 0
-            loggedUser.todaysTasks.add(loggedUser.taskLists[selectedTaskList].taskList[i]);
+            loggedUser.todaysTasks
+                      .add(loggedUser.taskLists[i].taskList[j]);
           }
           if (taskDate == chosenDate &&
               loggedUser.showOnly[2] == 1 &&
-              loggedUser.taskLists[selectedTaskList].taskList[i].priority == 1) {
+              loggedUser.todo[i].priority == 1) {
             // Fill with priority 1
-            loggedUser.todaysTasks.add(loggedUser.taskLists[selectedTaskList].taskList[i]);
+            loggedUser.todaysTasks
+                      .add(loggedUser.taskLists[i].taskList[j]);
           }
           if (taskDate == chosenDate &&
               loggedUser.showOnly[3] == 1 &&
-              loggedUser.taskLists[selectedTaskList].taskList[i].priority == 2) {
+              loggedUser.todo[i].priority == 2) {
             // Fill with priority 2
-            loggedUser.todaysTasks.add(loggedUser.taskLists[selectedTaskList].taskList[i]);
+            loggedUser.todaysTasks
+                      .add(loggedUser.taskLists[i].taskList[j]);
           }
         }
-      }
-      loggedUser.todaysTasks.sort((a, b) {
-        return a.finishAt.compareTo(b.finishAt);
-      });
-    }
-    }
-    else if (loggedUser.todo != null && loggedUser.showDate != null) {
-      loggedUser.todaysTasks = [];
-          if(loggedUser.taskLists != null){
-      for(int i = 0; i < loggedUser.taskLists.length;i++){
-        if(loggedUser.taskLists[i].taskList != null){
-          for(int j = 0; j < loggedUser.taskLists[i].taskList.length;j++){
-            if(loggedUser.showDate != null){
-              loggedUser.todaysTasks.add( loggedUser.taskLists[i].taskList[j]);
+              }
             }
           }
         }
       }
-    }
-      String chosenDate =
-          loggedUser.showDate != null ? loggedUser.showDate.toString() : "";
-      chosenDate = chosenDate == "" ? "" : chosenDate.substring(0, 10);
+
       for (int i = 0; i < loggedUser.todo.length; i++) {
         String taskDate =
             loggedUser.todo[i].date != null ? loggedUser.todo[i].date : "";
@@ -329,8 +414,7 @@ class ListBackGround extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(25), topRight: Radius.circular(25)
-        ),
+            topLeft: Radius.circular(25), topRight: Radius.circular(25)),
       ),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(20, 130, 20, 0),
@@ -533,61 +617,104 @@ class _CalendarState extends State<Calendar> {
   void _onDaySelected(DateTime day, List events) {
     loggedUser.showDate = _calendarController.selectedDay;
 
-    if(selectedTaskList != -1){
-      if (loggedUser.taskLists != null && loggedUser.showDate != null && loggedUser.taskLists[selectedTaskList] != null) {
+        if (selectedTaskList != -1) {
+      if (loggedUser.taskLists != null &&
+          loggedUser.showDate != null &&
+          loggedUser.taskLists[selectedTaskList] != null) {
+        loggedUser.todaysTasks = [];
+        String chosenDate =
+            loggedUser.showDate != null ? loggedUser.showDate.toString() : "";
+        chosenDate = chosenDate == "" ? "" : chosenDate.substring(0, 10);
+        for (int i = 0;
+            i < loggedUser.taskLists[selectedTaskList].taskList.length;
+            i++) {
+          String taskDate =
+              loggedUser.taskLists[selectedTaskList].taskList[i].date != null
+                  ? loggedUser.taskLists[selectedTaskList].taskList[i].date
+                  : "";
+          taskDate = taskDate == "" ? "" : taskDate.substring(0, 10);
+          if (taskDate == chosenDate && loggedUser.showOnly[0] == 1) {
+            // Show all
+            loggedUser.todaysTasks
+                .add(loggedUser.taskLists[selectedTaskList].taskList[i]);
+          } else {
+            if (taskDate == chosenDate &&
+                loggedUser.showOnly[1] == 1 &&
+                loggedUser.taskLists[selectedTaskList].taskList[i].priority ==
+                    0) {
+              // Fill with priority 0
+              loggedUser.todaysTasks
+                  .add(loggedUser.taskLists[selectedTaskList].taskList[i]);
+            }
+            if (taskDate == chosenDate &&
+                loggedUser.showOnly[2] == 1 &&
+                loggedUser.taskLists[selectedTaskList].taskList[i].priority ==
+                    1) {
+              // Fill with priority 1
+              loggedUser.todaysTasks
+                  .add(loggedUser.taskLists[selectedTaskList].taskList[i]);
+            }
+            if (taskDate == chosenDate &&
+                loggedUser.showOnly[3] == 1 &&
+                loggedUser.taskLists[selectedTaskList].taskList[i].priority ==
+                    2) {
+              // Fill with priority 2
+              loggedUser.todaysTasks
+                  .add(loggedUser.taskLists[selectedTaskList].taskList[i]);
+            }
+          }
+        }
+        loggedUser.todaysTasks.sort((a, b) {
+          return a.finishAt.compareTo(b.finishAt);
+        });
+      }
+    } else if (loggedUser.todo != null && loggedUser.showDate != null) {
       loggedUser.todaysTasks = [];
       String chosenDate =
           loggedUser.showDate != null ? loggedUser.showDate.toString() : "";
       chosenDate = chosenDate == "" ? "" : chosenDate.substring(0, 10);
-      for (int i = 0; i < loggedUser.taskLists[selectedTaskList].taskList.length; i++) {
-        String taskDate =
-            loggedUser.taskLists[selectedTaskList].taskList[i].date != null ? loggedUser.taskLists[selectedTaskList].taskList[i].date : "";
-        taskDate = taskDate == "" ? "" : taskDate.substring(0, 10);
-        if (taskDate == chosenDate && loggedUser.showOnly[0] == 1) {
-          // Show all
-          loggedUser.todaysTasks.add( loggedUser.taskLists[selectedTaskList].taskList[i]);
-        } else {
+      if (loggedUser.taskLists != null) {
+        for (int i = 0; i < loggedUser.taskLists.length; i++) {
+          if (loggedUser.taskLists[i].taskList != null) {
+            for (int j = 0; j < loggedUser.taskLists[i].taskList.length; j++) {
+              if (loggedUser.showDate != null) {
+                String taskDate =
+                    loggedUser.taskLists[i].taskList[j].date != null
+                        ? loggedUser.taskLists[i].taskList[j].date
+                        : "";
+                taskDate = taskDate == "" ? "" : taskDate.substring(0, 10);
+                if (taskDate == chosenDate && loggedUser.showOnly[0] == 1) {
+                  loggedUser.todaysTasks
+                      .add(loggedUser.taskLists[i].taskList[j]);
+                } else {
           if (taskDate == chosenDate &&
               loggedUser.showOnly[1] == 1 &&
-              loggedUser.taskLists[selectedTaskList].taskList[i].priority == 0) {
+              loggedUser.todo[i].priority == 0) {
             // Fill with priority 0
-            loggedUser.todaysTasks.add(loggedUser.taskLists[selectedTaskList].taskList[i]);
+            loggedUser.todaysTasks
+                      .add(loggedUser.taskLists[i].taskList[j]);
           }
           if (taskDate == chosenDate &&
               loggedUser.showOnly[2] == 1 &&
-              loggedUser.taskLists[selectedTaskList].taskList[i].priority == 1) {
+              loggedUser.todo[i].priority == 1) {
             // Fill with priority 1
-            loggedUser.todaysTasks.add(loggedUser.taskLists[selectedTaskList].taskList[i]);
+            loggedUser.todaysTasks
+                      .add(loggedUser.taskLists[i].taskList[j]);
           }
           if (taskDate == chosenDate &&
               loggedUser.showOnly[3] == 1 &&
-              loggedUser.taskLists[selectedTaskList].taskList[i].priority == 2) {
+              loggedUser.todo[i].priority == 2) {
             // Fill with priority 2
-            loggedUser.todaysTasks.add(loggedUser.taskLists[selectedTaskList].taskList[i]);
+            loggedUser.todaysTasks
+                      .add(loggedUser.taskLists[i].taskList[j]);
           }
         }
-      }
-      loggedUser.todaysTasks.sort((a, b) {
-        return a.finishAt.compareTo(b.finishAt);
-      });
-    }
-    }
-    else if (loggedUser.todo != null && loggedUser.showDate != null) {
-      loggedUser.todaysTasks = [];
-          if(loggedUser.taskLists != null){
-      for(int i = 0; i < loggedUser.taskLists.length;i++){
-        if(loggedUser.taskLists[i].taskList != null){
-          for(int j = 0; j < loggedUser.taskLists[i].taskList.length;j++){
-            if(loggedUser.showDate != null){
-              loggedUser.todaysTasks.add( loggedUser.taskLists[i].taskList[j]);
+              }
             }
           }
         }
       }
-    }
-      String chosenDate =
-          loggedUser.showDate != null ? loggedUser.showDate.toString() : "";
-      chosenDate = chosenDate == "" ? "" : chosenDate.substring(0, 10);
+
       for (int i = 0; i < loggedUser.todo.length; i++) {
         String taskDate =
             loggedUser.todo[i].date != null ? loggedUser.todo[i].date : "";
@@ -622,7 +749,7 @@ class _CalendarState extends State<Calendar> {
       numOfTask = loggedUser.todaysTasks.length;
       controller.to.add(numOfTask + 1);
     }
-      
+
     setState(() {
       _selectedEvents = events;
     });

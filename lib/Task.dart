@@ -1,3 +1,6 @@
+// Lukáš Schmelcer(xschme00)
+// Adam Feranec(xferan00)
+// Marek Vaško(xvasko16)
 import 'dart:async';
 
 class Task{

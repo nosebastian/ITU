@@ -1,3 +1,5 @@
+//Lukáš Schmelcer(xschme00)
+
 import 'package:flutter/material.dart';
 import 'package:itu_project/Widgets/Views/DetailView.dart';
 import 'package:itu_project/Widgets/Views/NewTaskListView.dart';

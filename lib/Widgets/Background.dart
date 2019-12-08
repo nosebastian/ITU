@@ -1,3 +1,5 @@
+//Lukáš Schmelcer(xschme00)
+
 import 'package:flutter/material.dart';
 
 class BackGround extends StatelessWidget {

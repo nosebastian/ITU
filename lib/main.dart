@@ -1,3 +1,4 @@
+// Adam Feranec(xferan00)
 import 'package:flutter/material.dart';
 import 'Widgets/Views/ActiveView.dart';
 import 'User.dart';

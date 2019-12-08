@@ -1,3 +1,4 @@
+//Marek Vaško(xvasko16)
 import 'package:flutter/material.dart';
 import 'package:itu_project/TaskList.dart';
 import 'package:itu_project/Widgets/Views/DetailView.dart';

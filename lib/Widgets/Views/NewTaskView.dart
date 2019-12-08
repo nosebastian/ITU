@@ -1,3 +1,5 @@
+//Lukáš Schmelcer(xschme00)
+//Marek Vaško(xvasko16)
 import 'package:flutter/material.dart';
 import 'package:itu_project/Task.dart';
 import 'package:table_calendar/table_calendar.dart';
